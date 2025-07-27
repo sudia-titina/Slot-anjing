@@ -1,0 +1,28 @@
+# .github/workflows/shodan-scan.yml
+name: Shodan Scan
+
+on:
+  workflow_dispatch: # bisa dijalankan manual
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: pip install shodan
+
+    - name: Run Shodan scan
+      env:
+        SHODAN_KEY: ${{ secrets.SHODAN_KEY }}
+      run: |
+        echo "Running Shodan script..."
+        python3 scan.py
